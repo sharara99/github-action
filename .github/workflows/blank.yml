@@ -1,25 +1,18 @@
-name: Trigger Lab
+name: Marketplace and Reusable workflows
+run-name: "${{ github.actor }}'s Marketplace and Reuse Workflow Run"
 
 on:
-    push:
-    workflow_dispatch:
-    schedule:
-        - cron: '*/2 * * * *'
+  workflow_dispatch
 
 jobs:
-    handle-event:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Print trigger type
-              run: |
-                echo "Trigger type: ${{ github.event_name }}"
-                
-                if [ "${{ github.event_name }}" == "push" ]; then
-                    echo "Code was pushed"
-                elif [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
-                    echo "Manual execution"
-                elif [ "${{ github.event_name }}" == "schedule" ]; then
-                    echo "Running on schedule"
-                else
-                    echo "Unknown trigger type"
-                fi
+  setup-python-job:
+    runs-on: ubuntu-latest
+    steps:
+      # استخدام action من GitHub Marketplace لتثبيت Python
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Show Python version
+        run: python --version
