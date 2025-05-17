@@ -2,6 +2,7 @@ name: Trigger
 
 on:
   push:
+    branches: [main]
   workflow_dispatch:
   schedule:
     - cron: "*/2 * * * *"
@@ -12,5 +13,4 @@ jobs:
 
     steps:
       - name: Print the trigger type
-        run: echo 'Triggered by: ${{ github.event_name }}'
-
+        run: echo "Triggered by: ${{ github.event_name }}"
