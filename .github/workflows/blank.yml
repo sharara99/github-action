@@ -14,16 +14,4 @@ jobs:
       - name: Print the trigger type
         run: echo "Triggered by: ${{ github.event_name }}"
 
-      - name: Check trigger and respond
-        run: |
-          EVENT_NAME=${{ github.event_name }}
 
-          if [ "$EVENT_NAME" == "push" ]; then
-            echo "Code was pushed!"
-          elif [ "$EVENT_NAME" == "workflow_dispatch" ]; then
-            echo "Manual execution"
-          elif [ "$EVENT_NAME" == "schedule" ]; then
-            echo "Running on schedule"
-          else
-            echo "Unknown trigger: $EVENT_NAME"
-          fi
