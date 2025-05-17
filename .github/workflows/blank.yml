@@ -1,16 +1,25 @@
-name: Trigger
+name: Trigger Lab
 
 on:
-  push:
-    branches: [main]
-  workflow_dispatch:
-  schedule:
-    - cron: "*/2 * * * *"
+    push:
+    workflow_dispatch:
+    schedule:
+        - cron: '*/2 * * * *'
 
 jobs:
-  handle-event:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Print the trigger type
-        run: echo "Triggered by: ${{ github.event_name }}"
+    handle-event:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Print trigger type
+              run: |
+                echo "Trigger type: ${{ github.event_name }}"
+                
+                if [ "${{ github.event_name }}" == "push" ]; then
+                    echo "Code was pushed"
+                elif [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+                    echo "Manual execution"
+                elif [ "${{ github.event_name }}" == "schedule" ]; then
+                    echo "Running on schedule"
+                else
+                    echo "Unknown trigger type"
+                fi
