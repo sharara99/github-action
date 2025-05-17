@@ -1,18 +1,21 @@
-name: Marketplace and Reusable workflows
-run-name: "${{ github.actor }}'s Marketplace and Reuse Workflow Run"
+name: JSON Input
 
 on:
-  workflow_dispatch
+  workflow_dispatch:
+    inputs:
+      config:
+        description: 'Provide JSON config (e.g. {"runTests": true, "env": "dev"})'
+        required: true
+        default: '{"runTests": true, "env": "dev"}'
 
 jobs:
-  setup-python-job:
+  parse-config:
     runs-on: ubuntu-latest
     steps:
-      # استخدام action من GitHub Marketplace لتثبيت Python
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-
-      - name: Show Python version
-        run: python --version
+      - name: Extract and display configuration
+        run: |
+          echo "Run Tests: $RUN_TESTS"
+          echo "Environment: $ENVIRONMENT"
+        env:
+          RUN_TESTS: ${{ fromJson(inputs.config).runTests }}
+          ENVIRONMENT: ${{ fromJson(inputs.config).env }}
